@@ -2,8 +2,10 @@
     "git.autoRepositoryDetection": "subFolders",
     "breadcrumbs.enabled": true,
 
-    "debug.autoExpandLazyVariables": true,
+    "debug.autoExpandLazyVariables":"on",
     "debug.inlineValues": "on",
+
+    "emmet.triggerExpansionOnTab": true,
 
     "python.languageServer": "Pylance",
     "python.analysis.typeCheckingMode": "off",
