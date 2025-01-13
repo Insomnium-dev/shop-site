@@ -4348,6 +4348,11 @@ textarea.form-control-lg {
   width: 100%;
 }
 
+.card-img-top{
+  height: inherit;
+  object-fit: cover;
+}
+
 .card-img,
 .card-img-top {
   border-top-left-radius: var(--bs-card-inner-border-radius);
