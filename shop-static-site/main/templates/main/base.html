@@ -27,12 +27,24 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
+
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#about">О Нас</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">О нас</a></li>
                         <li class="nav-item"><a class="nav-link" href="#projects">Услуги</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Мой профиль</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url "admin:index" %}">Войти</a></li>
                     </ul>
+                    <div class="dropdown mb-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Каталог
+                        </button>
+                        <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
+                        {% for category in categories %}
+                            <li><a class="dropdown-item text-white" href="{% url "goods:index" %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
