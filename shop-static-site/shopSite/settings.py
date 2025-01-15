@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
-from django.conf.global_settings import STATICFILES_DIRS
+from django.conf.global_settings import MEDIA_ROOT, MEDIA_URL, STATICFILES_DIRS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,6 +51,12 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+MEDIA_URL="media/"
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
