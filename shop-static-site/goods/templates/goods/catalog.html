@@ -8,7 +8,11 @@
             <div class="col mb-5">
                 <div class="card h-100">
                     <!-- Product image-->
-                    {% comment %} <img class="card-img-top" style="  height: inherit; object-fit: cover;" src="{% static product.image %}" alt="..." /> {% endcomment %}
+                {% if product.image %}
+                    <img class="card-img-top" style="  height: inherit; object-fit: cover;" src="{{ product.image.url }}" alt="..." />
+                {% else %}
+                    <img class="card-img-top" style="  height: inherit; object-fit: cover;" src="{% static "assets/img/not_found.png" %}" alt="..." />
+                {% endif %}
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
