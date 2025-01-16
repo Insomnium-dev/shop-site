@@ -1,7 +1,5 @@
 # Shop-site
 The website is built on Django and should be simple to set up and get started with.
-## Содержание
-- [Tehnologies](#технологии)
 
 ## Tehnologies
 - [Python](https://www.python.org/)
