@@ -1,4 +1,5 @@
 from django import template
+from traitlets import This
 
 from goods.models import Categories, Products
 
@@ -11,3 +12,8 @@ def tag_categories():
 @register.simple_tag()
 def tag_products():
     return Products.objects.all()
+
+
+@register.simple_tag()
+def tag_products_sell():
+    return Products.objects.filter(discount__gte=10)
