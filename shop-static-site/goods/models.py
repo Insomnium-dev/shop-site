@@ -26,7 +26,7 @@ class Products(models.Model):
     price = models.DecimalField(default=0.00, max_digits=7, decimal_places=2, verbose_name="Цена")
     image = models.ImageField(upload_to="goods_images",blank=True, null=True, verbose_name="Изображение")
     category = models.ForeignKey(to=Categories,on_delete=models.CASCADE, verbose_name='Категория')
-    description = models.TextField(max_length=500,unique=True,blank=True,null=True,verbose_name="Описание")
+    description = models.TextField(max_length=1000,unique=True,blank=True,null=True,verbose_name="Описание")
     discount = models.DecimalField(default=0.00, max_digits=4, decimal_places=2, verbose_name="Скидка в %")
 
     class Meta:
