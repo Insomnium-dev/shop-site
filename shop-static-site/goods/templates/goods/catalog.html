@@ -1,15 +1,17 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% load goods_tags %}
 {% block main %}
 <section class="py-5 masthead">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        {% tag_products as products %}
             {% for  product in products %}
             <div class="col mb-5">
                 <div class="card h-100">
                     <!-- Product image-->
                 {% if product.image %}
-                    <img class="card-img-top" style="  height: inherit; object-fit: cover;" src="{{ product.image.url }}" alt="..." />
+                    <img class="card-img-top" style="  height: inherit; object-fit: cover;" src="{{ product.image.url }}" alt="{{product.name}}" />
                 {% else %}
                     <img class="card-img-top" style="  height: inherit; object-fit: cover;" src="{% static "assets/img/not_found.png" %}" alt="..." />
                 {% endif %}
