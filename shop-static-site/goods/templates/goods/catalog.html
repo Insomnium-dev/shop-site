@@ -49,6 +49,34 @@
         </div>
     </div>
 </section>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center" style="background-color: black;
+    margin-bottom: 0;">
+    <li class="page-item {% if not products.has_previous %}disabled{% endif %}">
+      <a class="page-link" href="
+    {% if products.has_previous %}
+        {% url "goods:index" slug products.previous_page_number%}
+    {% else %}
+        #
+      {% endif %}" tabindex="-1">Назад</a>
+    </li>
+    {% for page in products.paginator.page_range %}
+        {% if  page >= products.number|add:-2 and page <= products.number|add:2 %}
+            <li class="page-item">
+                <a class="page-link" href="{% url "goods:index" slug page%}">{{page}}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+    <li class="page-item {% if not products.has_next %}disabled{% endif %}">
+        <a class="page-link" href="
+        {% if products.has_next %}
+            {% url "goods:index" slug products.next_page_number%}
+        {% else %}
+            #
+          {% endif %}">Вперед</a>
+    </li>
+  </ul>
+</nav>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/scripts.js"></script>
 </body>
