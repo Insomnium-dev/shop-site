@@ -55,7 +55,7 @@
     <li class="page-item {% if not products.has_previous %}disabled{% endif %}">
       <a class="page-link" href="
     {% if products.has_previous %}
-        {% url "goods:index" slug products.previous_page_number%}
+        ?page={{products.previous_page_number}}
     {% else %}
         #
       {% endif %}" tabindex="-1">Назад</a>
@@ -63,14 +63,14 @@
     {% for page in products.paginator.page_range %}
         {% if  page >= products.number|add:-2 and page <= products.number|add:2 %}
             <li class="page-item">
-                <a class="page-link" href="{% url "goods:index" slug page%}">{{page}}</a>
+                <a class="page-link" href="?page={{page}}">{{page}}</a>
             </li>
         {% endif %}
     {% endfor %}
     <li class="page-item {% if not products.has_next %}disabled{% endif %}">
         <a class="page-link" href="
         {% if products.has_next %}
-            {% url "goods:index" slug products.next_page_number%}
+           ?page={{products.next_page_number}}
         {% else %}
             #
           {% endif %}">Вперед</a>
