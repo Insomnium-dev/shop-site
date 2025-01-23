@@ -7,15 +7,19 @@ from django.template.defaultfilters import truncatechars
 
 # Create your views here.
 from goods.models import Products
+from goods.utils import q_search
 
-def catalog(request, category_slug):
+def catalog(request, category_slug=None):
 
     page = request.GET.get('page',1)
     on_sale = request.GET.get('on_sale',None)
     order_by = request.GET.get('order_by',None)
+    query=request.GET.get('q',None)
 
     if category_slug == 'all':
         goods = Products.objects.all()
+    elif query:
+        goods=q_search(query)
     else:
         goods = Products.objects.filter(category__slug=category_slug)
 
