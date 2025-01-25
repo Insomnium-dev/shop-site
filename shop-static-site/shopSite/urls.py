@@ -25,7 +25,8 @@ from shopSite import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('main.urls',namespace='main')),
-    path('catalog/',include('goods.urls',namespace='goods'))
+    path('catalog/',include('goods.urls',namespace='goods')),
+    path('user/', include('users.urls', namespace='users'))
     
 ]
 

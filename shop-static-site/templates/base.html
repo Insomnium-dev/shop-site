@@ -30,10 +30,24 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
 
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#about">О нас</a></li>
                         <li class="nav-item"><a class="nav-link" href="#projects">Услуги</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Мой профиль</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url "admin:index" %}">Войти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "users:login" %}">Войти</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Мой профиль
+                            </a>
+                            <ul class="dropdown-menu bg-dark">
+                                <li><a class="dropdown-item  text-white" href="carts/cart.html">Корзина</a></li>
+                                <li><a class="dropdown-item  text-white" href="{% url "users:profile" %}">Личный кабинет</a>
+                                </li>
+                                <li><a class="dropdown-item  text-white" href="{% url "admin:index" %}">Админ панель</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item  text-white" href="{% url "user:logout" %}">Выйти</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <form class="d-flex" style="padding-right:10px" role="search" action={% url "goods:search"%} method="get">
                         <input class="form-control me-2" type="search" name="q" placeholder="поиск" aria-label="Search">
