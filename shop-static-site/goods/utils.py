@@ -2,13 +2,17 @@ import keyword
 from django.db.models import Q
 from prompt_toolkit import PromptSession
 from goods.models import Products
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 
 def q_search(query):
 
     if query.isdigit() and len(query)<=5:
         return Products.objects.filter(id=int(query))
-    return Products.objects.filter(description__search=query)
+    vector = SearchVector("name", "description")
+    q = SearchQuery(query)
+    
+    return Products.objects.annotate(rank=SearchRank(vector, q)).filter(rank__gt=0).order_by("-rank")
     
 
 
