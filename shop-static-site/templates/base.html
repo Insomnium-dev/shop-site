@@ -31,7 +31,7 @@
 
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="#projects">Услуги</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#about">О нас</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "users:users-cart" %} ">Корзина {% if  user.is_authenticated%}(0){% endif %}</a></li>
                         {% if not user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{% url "users:login" %}">Войти</a></li>
                         {% else %}
@@ -41,7 +41,6 @@
                                     Мой профиль
                                 </a>
                                 <ul class="dropdown-menu bg-dark">
-                                    <li><a class="dropdown-item  text-white" href="carts/cart.html">Корзина</a></li>
                                     <li><a class="dropdown-item  text-white" href="{% url "users:profile" %}">Личный кабинет</a>
                                     </li>
                                     {% if user.is_admin or user.is_staff %}
