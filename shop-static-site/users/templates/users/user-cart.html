@@ -3,7 +3,7 @@
 
 
 {% block main %}
-<div class="row">
+<div class="row" style="height:100vh">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
@@ -12,12 +12,15 @@
                     <!-- Разметка корзины -->
                     {% include "carts/includes/included_cart.html" %}
                     <!-- Закончилась разметка корзины -->
+                    <a class="btn btn-dark" href="../orders/create_order.html">
+                        Оформить заказ
+                    </a>
                 </div>
-                <a class="btn btn-dark" href="../orders/create_order.html">
-                    Оформить заказ
-                </a>
             </div>
         </div>
     </div>
 </div>
 {% endblock main %}
+{% block footer %}
+
+{% endblock footer %}

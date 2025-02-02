@@ -1,30 +1,45 @@
-# from django.db import models
 
-# # Create your models here.
-# from django.db import models
+from tabnanny import verbose
+from django.db import models
 
-# # Create your models here.
+# Create your models here.
+from django.db import models
+
+from goods.models import Products
+from users.models import User
+
+# Create your models here.
+
+class CartQueryset(models.QuerySet):
+
+    def total_price(self):
+        return sum([cart.products_price() for cart in self])
+
+    def total_quantity(self):
+        if self:
+            return sum([cart.quantity for cart in self])
+        return 0
 
 
-# class Cart(models.Model):
-#     name = models.CharField(max_length = 150, unique = True, verbose_name="Название")
-#     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name="URL")
-#     price = models.DecimalField(default=0.00, max_digits=7, decimal_places=2, verbose_name="Цена")
-#     image = models.ImageField(upload_to="goods_images",blank=True, null=True, verbose_name="Изображение")
-#     description = models.TextField(max_length=1000,unique=True,blank=True,null=True,verbose_name="Описание")
-#     discount = models.DecimalField(default=0.00, max_digits=4, decimal_places=2, verbose_name="Скидка в %")
+class Cart(models.Model):
 
-#     class Meta:
-#         db_table = "product"
-#         verbose_name = "Продукт"
-#         verbose_name_plural = "Продукты"
+    user = models.ForeignKey(to=User,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Пользователь')
+    product = models.ForeignKey(to=Products,on_delete=models.CASCADE,verbose_name='Товар')
+    quantity= models.PositiveSmallIntegerField(default=0,verbose_name="Количество")
+    session_key=models.CharField(max_length=32,null=True,blank=True)
+    created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
+
+
+    class Meta:
+        db_table="cart"
+        verbose_name = "Корзина"
+        verbose_name_plural = "Корзины"
+
+    objects = CartQueryset().as_manager()
         
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return f'''Корзина {self.user.username}| Товар {self.product.name}| Количество {self.quantity}'''
     
-#     def display_id(self):
-#         return f"{self.id:05}"
+    def products_price(self):
+        return round(self.product.calc_discount()*self.quantity, 2)
     
-#     def calc_discount(self):
-#         if self.discount:
-#             return format(self.price - self.price*self.discount/100,'.2f')
