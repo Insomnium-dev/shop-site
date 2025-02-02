@@ -23,7 +23,13 @@
                    
                 </div>
                 <p class="lead">{{product.description}}</p>
-                <a class="btn btn-outline-dark flex-shrink-0" href={% url "cart:cart_add" product.slug%}>Добавить в корзину</a>        
+                <a class="btn btn-outline-dark flex-shrink-0 add-to-cart" 
+                    data-product-id={{product.id}} 
+                    href={% url "cart:cart_add"%}>
+                    {% csrf_token %} 
+                    Добавить в корзину
+                </a>       
+                
             </div>
         </div>
     </div>
