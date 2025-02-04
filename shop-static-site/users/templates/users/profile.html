@@ -95,13 +95,16 @@
                                     <div class="container" id="cart-items-container">
                                         <!-- Разметка корзины -->
                                             {% include "carts/includes/included_cart.html" %}
-                                            {% if carts %}
-                                                <a class="btn btn-dark" href="../orders/create_order.html">
-                                                    Оформить заказ
-                                                </a>
-                                            {% endif %}
+
                                         <!-- Закончилась разметка корзины -->
                                     </div>
+                                        {% if carts %}
+                                        <div class="container">
+                                            <a class="btn btn-dark" href="../orders/create_order.html">
+                                                Оформить заказ
+                                            </a>
+                                        </div>
+                                        {% endif %}
 
                                 </div>
                             </div>

@@ -15,12 +15,15 @@
                     <!-- Разметка корзины -->
                     {% include "carts/includes/included_cart.html" %}
                     <!-- Закончилась разметка корзины -->
-                     {% if carts %}
-                        <a class="btn btn-dark" href="../orders/create_order.html">
-                            Оформить заказ
-                        </a>
-                    {% endif %}
+
                 </div>
+                {% if carts %}
+                <div class="container">
+                    <a class="btn btn-dark" href="../orders/create_order.html">
+                        Оформить заказ
+                    </a>
+                </div>
+            {% endif %}
             </div>
         </div>
     </div>
