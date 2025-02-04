@@ -28,7 +28,18 @@ def cart_add(request):
             #Если нет, то создаем новую корзину с этим продуктом
             Cart.objects.create(user=request.user, product=product, quantity=1)
         
+    else:
+        carts=Cart.objects.filter(session_key=request.session.session_key,product=product)
 
+        #Если корзины есть, то берем первую, и добавляем количество +1, сохраняем
+        if carts.exists():
+            cart =carts.first()
+            if cart:
+                cart.quantity+=1
+                cart.save()
+        else:
+            #Если нет, то создаем новую корзину с этим продуктом
+            Cart.objects.create(session_key=request.session.session_key, product=product, quantity=1)
     
     user_cart = get_user_carts(request)
     
