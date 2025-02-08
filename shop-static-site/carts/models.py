@@ -38,7 +38,10 @@ class Cart(models.Model):
     objects = CartQueryset().as_manager()
         
     def __str__(self):
-        return f'''Корзина {self.user.username}| Товар {self.product.name}| Количество {self.quantity}'''
+        if self.user:
+            return f'''Корзина {self.user.username}| Товар {self.product.name}| Количество {self.quantity}'''
+
+        return f'''Анонимная корзина {self.user.username}| Товар {self.product.name}| Количество {self.quantity}'''
     
     def products_price(self):
         return round(self.product.calc_discount()*self.quantity, 2)
