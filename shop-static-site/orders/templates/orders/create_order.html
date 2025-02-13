@@ -13,13 +13,7 @@
             {% include "carts/includes/included_cart.html" %}
             <!-- Закончилась разметка корзины -->
         </div>
-        {% if carts %}
-        <div class="container">
-            <a class="btn btn-dark" href="{% url "orders:create_order" %}">
-                Оформить заказ
-            </a>
-        </div>
-    {% endif %}
+
     </div>
     <!-- Детали заказа -->
     <div class="container">
@@ -79,7 +73,13 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-dark">Оформить заказ</button>
+                    {% if carts %}
+                    <div class="container">
+                        <a class="btn btn-dark" href="{% url "orders:create_order" %}">
+                            Оформить заказ
+                        </a>
+                    </div>
+                {% endif %}
                 </form>
             </div>
         </div>
