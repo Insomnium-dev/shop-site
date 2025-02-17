@@ -13,7 +13,6 @@
             {% include "carts/includes/included_cart.html" %}
             <!-- Закончилась разметка корзины -->
         </div>
-
     </div>
     <!-- Детали заказа -->
     <div class="container">
@@ -27,50 +26,56 @@
                             <label for="id_first_name" class="form-label">Имя*:</label>
                             <input type="text" class="form-control" id="id_first_name"
                                 name="first_name" 
-                                value="{% if  form.first_name.value%}{{form.first_name.value}}{% endif %}"
+                                value="{% if form.first_name.value%}{{form.first_name.value}}{% endif %}"
                                 required>
-                            {% if form.first_name.errors %}
-                                <div class="alert alert-danger alert-dismissible fade show">{{form.first_name.errors }}</div>
-                            {% endif %}
+                                {% if form.first_name.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{form.first_name.errors }}</div>
+                                {% endif %}
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="id_last_name" class="form-label">Фамилия*:</label>
                             <input type="text" class="form-control" id="id_last_name" name="last_name" 
-                            value="{% if  form.last_name.value%}{{form.last_name.value}}{% endif %}"
+                            value="{% if form.last_name.value%}{{form.last_name.value}}{% endif %}"
                             required>
-                        {% if form.last_name.errors %}
-                            <div class="alert alert-danger alert-dismissible fade show">{{form.last_name.errors }}</div>
-                        {% endif %}
+                            {% if form.last_name.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show">{{form.last_name.errors }}</div>
+                            {% endif %}
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="id_phone_number" class="form-label">Номер телефона*:</label>
                             <input type="text" class="form-control" id="id_phone_number" name="phone_number"
-                                value="{% if  form.phone_number.value%}{{form.phone_number.value}}{% endif %}"
+                                value="{% if form.phone_number.value%}{{form.phone_number.value}}{% endif %}"
                                 placeholder="В формате: XXX-XXX-XX-XX"
                                 required>
-                            {% if form.phone_number.errors %}
-                                <div class="alert alert-danger alert-dismissible fade show">{{form.phone_number.errors }}</div>
-                            {% endif %}
+                                {% if form.phone_number.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{form.phone_number.errors }}</div>
+                                {% endif %}
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="delivery" class="form-label">Способ доставки: </label>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="requires_delivery"
                                     id="id_requires_delivery" value="1" checked>
-                                <label class="form-check-label" for="id_requires_delivery">Нужна
+                                    <label class="form-check-label" for="id_requires_delivery">Нужна
                                     доставка</label>
+                                {% if form.requires_delivery.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{form.requires_delivery.errors }}</div>
+                                {% endif %}
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="requires_delivery"
                                     id="id_requires_delivery" value="0">
                                 <label class="form-check-label" for="id_requires_delivery">Самовывоз</label>
+                                {% if form.requires_delivery.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{form.requires_delivery.errors }}</div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="mb-3" id="deliveryAddressField">
                             <label for="id_delivery_address" class="form-label">Адрес
                                 доставки*:</label>
                             <textarea class="form-control" id="id_delivery_address"
-                                value="{% if  form.delivery_address.value%}{{form.delivery_address.value}}{% endif %}"
+                                value="{% if form.delivery_address.value%}{{form.delivery_address.value}}{% endif %}"
                                 name="delivery_address" rows="2"></textarea>
                             {% if form.delivery_address.errors %}
                                 <div class="alert alert-danger alert-dismissible fade show">{{form.delivery_address.errors }}</div>
@@ -83,12 +88,18 @@
                                     id="id_payment_on_get" value="0" checked>
                                 <label class="form-check-label" for="id_payment_on_get">Оплата
                                     картой</label>
+                                    {% if form.payment_on_get.errors %}
+                                        <div class="alert alert-danger alert-dismissible fade show">{{form.ayment_on_get.errors }}</div>
+                                {% endif %}
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="payment_on_get"
                                     id="id_payment_on_get" value="1">
                                 <label class="form-check-label" for="id_payment_on_get">Наличными/картой
                                     при плучении</label>
+                                {% if form.payment_on_get.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{form.ayment_on_get.errors }}</div>
+                            {% endif %}
                             </div>
                         </div>
                     </div>

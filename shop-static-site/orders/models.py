@@ -25,7 +25,7 @@ class Order(models.Model):
         auto_now_add=True, verbose_name="Дата создания заказа"
     )
     phone_number = models.CharField(max_length=20, verbose_name="Номер телефона")
-    requieres_delievery = models.BooleanField(
+    requires_delivery = models.BooleanField(
         default=False, verbose_name="Требуется доставка"
     )
     delivery_address = models.TextField(
