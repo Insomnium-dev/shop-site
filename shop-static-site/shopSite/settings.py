@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'shopSite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'spec',
+        'NAME': 'home',
         'USER': 'spec',
         'PASSWORD': 'spec',
         'HOST': 'localhost',
