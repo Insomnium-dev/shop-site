@@ -22,7 +22,7 @@ def create_order(request):
                     order = Order.objects.create(
                         user=user,
                         phone_number=form.cleaned_data["phone_number"],
-                        requieres_delievery=form.cleaned_data["requieres_delievery"],
+                        requires_delivery=form.cleaned_data["requires_delivery"],
                         delivery_address=form.cleaned_data["delivery_address"],
                         payment_on_get=form.cleaned_data["payment_on_get"],
                     )
@@ -42,10 +42,8 @@ def create_order(request):
                         )
 
                     cart_items.delete()
-
                     messages.success(request, "Заказ оформлен!")
                     return redirect("user:profile")
-
     else:
         initial = {
             "first_name": request.user.first_name,

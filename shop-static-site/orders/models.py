@@ -6,7 +6,7 @@ from users.models import User
 
 
 # Create your models here.
-class ObrderitemQueryset(models.QuerySet):
+class OrderitemQueryset(models.QuerySet):
 
     def total_price(self):
         return sum(cart.products_price() for cart in self)
@@ -19,7 +19,7 @@ class ObrderitemQueryset(models.QuerySet):
 
 class Order(models.Model):
     user = models.ForeignKey(
-        to=User, on_delete=models.SET_DEFAULT, verbose_name="Пользователь", default=None
+        to=User, on_delete=models.SET_DEFAULT, verbose_name="Пользователь", default=None,blank=True, null=True
     )
     created_timestamp = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания заказа"
@@ -69,10 +69,10 @@ class OrderItem(models.Model):
         verbose_name = "Проданный товар"
         verbose_name_plural = "Проданный товары"
 
-    objects = ObrderitemQueryset.as_manager()
+    objects = OrderitemQueryset.as_manager()
 
     def products_price(self):
-        return round(self.product.calc_discount() * self.quantity, 2)
+        return round(self.product.price * self.quantity, 2)
 
     def __str__(self):
         return f"Товар {self.name} | Заказ № {self.pk}"

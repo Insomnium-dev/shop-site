@@ -1,8 +1,8 @@
 {% load static %}
 {% load goods_tags%}
 {% load carts_tags %}
-
 {% users_carts request as carts%}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,9 +34,9 @@
 
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="#projects">Услуги</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url "users:users_cart" %} ">Корзина(<div id="goods-in-cart-count" style="display:inline">{% if carts.total_quantity%}{{carts.total_quantity}}{% else %}0{% endif %}</div>)</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "user:users_cart" %} ">Корзина(<div id="goods-in-cart-count" style="display:inline">{% if carts.total_quantity%}{{carts.total_quantity}}{% else %}0{% endif %}</div>)</a></li>
                         {% if not user.is_authenticated %}
-                            <li class="nav-item"><a class="nav-link" href="{% url "users:login" %}">Войти</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "user:login" %}">Войти</a></li>
                         {% else %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -44,7 +44,7 @@
                                     Мой профиль
                                 </a>
                                 <ul class="dropdown-menu bg-dark">
-                                    <li><a class="dropdown-item  text-white" href="{% url "users:profile" %}">Личный кабинет</a>
+                                    <li><a class="dropdown-item  text-white" href="{% url "user:profile" %}">Личный кабинет</a>
                                     </li>
                                     {% if user.is_admin or user.is_staff %}
                                         <li><a class="dropdown-item  text-white" href="{% url "admin:index" %}">Админ панель</a></li>
@@ -57,7 +57,7 @@
                             </li>
                         {% endif %}
                     </ul>
-                    <form class="d-flex" style="padding-right:10px" role="search" action={% url "goods:search"%} method="get">
+                    <form class="d-flex" style="padding-right:10px" role="search" action="{% url "goods:search"%}" method="get">
                         <input class="form-control me-2" type="search" name="q" placeholder="поиск" aria-label="Search">
                         <button class="btn btn-primary" type="submit">Поиск</button>
                     </form>
@@ -78,17 +78,19 @@
             </div>
         </nav>
         <!-- Masthead-->
-        {% include "includes/notifications.html" %}
+        
         {% block main %} 
+
         {% endblock main %}
     
         {% block footer %} 
+
         {% endblock footer %}
 
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Металлопрокат в Минске ©2004-2024.&copy; Все права защищены.</div></footer>
         <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static "js/bootstrap/bootstrap.bundle.min.js" %}"></script>
         <!-- Core theme JS-->
         <script src="{% static "js/jquery/jquery-3.7.0.min.js" %}"></script>
         <script src="{% static "js/jquery-ajax.js" %}"></script>

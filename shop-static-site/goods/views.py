@@ -1,9 +1,6 @@
-from ctypes import cast
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from django.template import context
-from django.template.base import constant_string
-from django.template.defaultfilters import truncatechars
+
 
 # Create your views here.
 from goods.models import Products
