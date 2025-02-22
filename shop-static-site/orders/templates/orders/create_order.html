@@ -110,11 +110,7 @@
                     </div>
                     {% users_carts request as carts%}
                     {% if carts %}
-                    <div class="container">
-                        <a class="btn btn-dark" href="{% url "orders:create_order" %}">
-                            Оформить заказ
-                        </a>
-                    </div>
+                        <button type="submit" class="btn btn-dark">Оформить заказ</button>
                 {% endif %}
                 </form>
             </div>
