@@ -1,6 +1,7 @@
 from email import message
 from operator import rshift
 from django.core.signals import request_started
+from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib import auth, messages
@@ -9,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 
 from carts.models import Cart
+from orders.models import Order, OrderItem
 from users.forms import UserLoginForm, UserRegistrationForm, ProfileForm
 
 
@@ -21,9 +23,7 @@ def login(request):
             password = request.POST["password"]
             user = auth.authenticate(request, username=username, password=password)
 
-
             session_key = request.session.session_key
-
 
             if user:
                 auth.login(request, user)
@@ -31,10 +31,10 @@ def login(request):
                 if session_key:
                     Cart.objects.filter(session_key=session_key).update(user=user)
                 # messages.success(request, f'{username}, вы успешно авторизованы!')
-                redirect_page=request.POST.get('next', None)
-                if redirect_page and redirect_page!=reverse('users:logout'):
-                    return HttpResponseRedirect(request.POST.get('next'))
-            
+                redirect_page = request.POST.get("next", None)
+                if redirect_page and redirect_page != reverse("users:logout"):
+                    return HttpResponseRedirect(request.POST.get("next"))
+
             return HttpResponseRedirect(reverse("main:index"))
     else:
         form = UserLoginForm()
@@ -55,7 +55,7 @@ def registration(request):
             auth.login(request, user)
 
             if session_key:
-                    Cart.objects.filter(session_key=session_key).update(user=user)
+                Cart.objects.filter(session_key=session_key).update(user=user)
             # messages.success(request, f'{user.username}, вы успешно зарегистрированы!')
             return HttpResponseRedirect(reverse("main:index"))
     else:
@@ -64,11 +64,14 @@ def registration(request):
     context = {"form": form}
     return render(request, "users/registration.html", context)
 
+
 @login_required
 def profile(request):
 
     if request.method == "POST":
-        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = ProfileForm(
+            data=request.POST, instance=request.user, files=request.FILES
+        )
         if form.is_valid():
             form.save()
             # messages.success(request,'Сохранено!')
@@ -76,8 +79,17 @@ def profile(request):
     else:
         form = ProfileForm(instance=request.user)
 
-    context = {"form": form}
+    orders = Order.objects.filter(user=request.user).prefetch_related(
+        Prefetch(
+            'orderitem_set',
+            queryset=OrderItem.objects.select_related('product').order_by('-id')
+        )
+    )
+
+
+    context = {"form": form, 'orders':orders}
     return render(request, "users/profile.html", context)
+
 
 @login_required
 def logout(request):
@@ -87,5 +99,4 @@ def logout(request):
 
 
 def users_cart(request):
-    return render(request, 'users/user-cart.html')
-
+    return render(request, "users/user-cart.html")
