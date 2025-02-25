@@ -94,25 +94,25 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center" style="background-color: black;
     margin-bottom: 0;">
-    <li class="page-item {% if not products.has_previous %}disabled{% endif %}">
+    <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
       <a class="page-link" href="
-    {% if products.has_previous %}
-        ?{% param_change page=products.previous_page_number %}
+    {% if page_obj.has_previous %}
+        ?{% param_change page=page_obj.previous_page_number %}
     {% else %}
         #
       {% endif %}" tabindex="-1">Назад</a>
     </li>
-    {% for page in products.paginator.page_range %}
-        {% if  page >= products.number|add:-2 and page <= products.number|add:2 %}
+    {% for page in page_obj.paginator.page_range %}
+        {% if  page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
             <li class="page-item">
                 <a class="page-link" href="?{% param_change page=page%}">{{page}}</a>
             </li>
         {% endif %}
     {% endfor %}
-    <li class="page-item {% if not products.has_next %}disabled{% endif %}">
+    <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
         <a class="page-link" href="
-        {% if products.has_next %}
-           ?{% param_change page=products.next_page_number %}
+        {% if page_obj.has_next %}
+           ?{% param_change page=page_obj.next_page_number %}
         {% else %}
             #
           {% endif %}">Вперед</a>
