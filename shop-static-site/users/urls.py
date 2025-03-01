@@ -6,7 +6,7 @@ from users import views
 app_name ='user'
 
 urlpatterns = [
-    path('login/', views.login, name='login'),
+    path('login/', views.UserLoginView.as_view(), name='login'),
     path('registration/', views.registration, name='registration'),
     path('profile/', views.profile, name='profile'),
     path('users-cart/', views.users_cart, name='users_cart'),

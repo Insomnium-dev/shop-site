@@ -5,9 +5,9 @@ from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib import auth, messages
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.views import LoginView
 
 from carts.models import Cart
 from orders.models import Order, OrderItem
@@ -15,32 +15,66 @@ from users.forms import UserLoginForm, UserRegistrationForm, ProfileForm
 
 
 # Create your views here.
-def login(request):
-    if request.method == "POST":
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST["username"]
-            password = request.POST["password"]
-            user = auth.authenticate(request, username=username, password=password)
+class UserLoginView(LoginView):
+    template_name = "users/login.html"
+    form_class = UserLoginForm
 
-            session_key = request.session.session_key
 
-            if user:
-                auth.login(request, user)
+    def form_valid(self, form):
+        session_key = self.request.session.session_key
 
-                if session_key:
-                    Cart.objects.filter(session_key=session_key).update(user=user)
-                # messages.success(request, f'{username}, вы успешно авторизованы!')
-                redirect_page = request.POST.get("next", None)
-                if redirect_page and redirect_page != reverse("users:logout"):
-                    return HttpResponseRedirect(request.POST.get("next"))
+        user = form.get_user()
 
-            return HttpResponseRedirect(reverse("main:index"))
-    else:
-        form = UserLoginForm()
+        if user:
+            auth.login(self.request, user)
+            
+            if session_key:
+                forgot_carts = Cart.objects.filter(user=user)
+                if forgot_carts.exists():
+                    forgot_carts.delete()
+                Cart.objects.filter(session_key=session_key).update(user=user)
 
-    context = {"form": form}
-    return render(request, "users/login.html", context)
+                return HttpResponseRedirect(self.get_success_url())
+    
+
+    def get_success_url(self):
+        redirect_page = self.request.POST.get("next", None)
+        if redirect_page and redirect_page != reverse("users:logout"):
+            return redirect_page
+        return reverse_lazy("main:index")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context[""] =
+        return context
+
+
+# def login(request):
+#     if request.method == "POST":
+#         form = UserLoginForm(data=request.POST)
+#         if form.is_valid():
+#             username = request.POST["username"]
+#             password = request.POST["password"]
+#             user = auth.authenticate(request, username=username, password=password)
+
+#             session_key = request.session.session_key
+
+#             if user:
+#                 auth.login(request, user)
+
+#                 if session_key:
+#                     Cart.objects.filter(session_key=session_key).update(user=user)
+#                 # messages.success(request, f'{username}, вы успешно авторизованы!')
+#                 redirect_page = request.POST.get("next", None)
+#                 if redirect_page and redirect_page != reverse("users:logout"):
+#                     return HttpResponseRedirect(request.POST.get("next"))
+
+#             return HttpResponseRedirect(reverse("main:index"))
+#     else:
+#         form = UserLoginForm()
+
+#     context = {"form": form}
+#     return render(request, "users/login.html", context)
 
 
 def registration(request):
@@ -81,13 +115,12 @@ def profile(request):
 
     orders = Order.objects.filter(user=request.user).prefetch_related(
         Prefetch(
-            'orderitem_set',
-            queryset=OrderItem.objects.select_related('product').order_by('-id')
+            "orderitem_set",
+            queryset=OrderItem.objects.select_related("product").order_by("-id"),
         )
     )
 
-
-    context = {"form": form, 'orders':orders}
+    context = {"form": form, "orders": orders}
     return render(request, "users/profile.html", context)
 
 
