@@ -8,6 +8,7 @@ from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+from django.views.generic import CreateView
 
 from carts.models import Cart
 from orders.models import Order, OrderItem
@@ -35,8 +36,7 @@ class UserLoginView(LoginView):
                 Cart.objects.filter(session_key=session_key).update(user=user)
 
                 return HttpResponseRedirect(self.get_success_url())
-    
-
+            
     def get_success_url(self):
         redirect_page = self.request.POST.get("next", None)
         if redirect_page and redirect_page != reverse("users:logout"):
@@ -49,54 +49,29 @@ class UserLoginView(LoginView):
         return context
 
 
-# def login(request):
-#     if request.method == "POST":
-#         form = UserLoginForm(data=request.POST)
-#         if form.is_valid():
-#             username = request.POST["username"]
-#             password = request.POST["password"]
-#             user = auth.authenticate(request, username=username, password=password)
 
-#             session_key = request.session.session_key
+class UserRegistrationView(CreateView):
+    template_name ="users/registration.html"
+    success_url = reverse_lazy("users:profile")
+    form_class = UserRegistrationForm
 
-#             if user:
-#                 auth.login(request, user)
+    def form_valid(self, form):
+        session_key = self.request.session.session_key
+        user = form.instance
 
-#                 if session_key:
-#                     Cart.objects.filter(session_key=session_key).update(user=user)
-#                 # messages.success(request, f'{username}, вы успешно авторизованы!')
-#                 redirect_page = request.POST.get("next", None)
-#                 if redirect_page and redirect_page != reverse("users:logout"):
-#                     return HttpResponseRedirect(request.POST.get("next"))
-
-#             return HttpResponseRedirect(reverse("main:index"))
-#     else:
-#         form = UserLoginForm()
-
-#     context = {"form": form}
-#     return render(request, "users/login.html", context)
-
-
-def registration(request):
-    if request.method == "POST":
-        form = UserRegistrationForm(data=request.POST)
-        if form.is_valid():
+        if user:
             form.save()
+            auth.login(self.request, user)
 
-            session_key = request.session.session_key
+        if session_key:
+            Cart.objects.filter(session_key=session_key).update(user=user)
+        return HttpResponseRedirect(self.success_url)
 
-            user = form.instance
-            auth.login(request, user)
 
-            if session_key:
-                Cart.objects.filter(session_key=session_key).update(user=user)
-            # messages.success(request, f'{user.username}, вы успешно зарегистрированы!')
-            return HttpResponseRedirect(reverse("main:index"))
-    else:
-        form = UserRegistrationForm()
-
-    context = {"form": form}
-    return render(request, "users/registration.html", context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
 
 
 @login_required
@@ -133,3 +108,57 @@ def logout(request):
 
 def users_cart(request):
     return render(request, "users/user-cart.html")
+
+
+
+
+
+# def login(request):
+#     if request.method == "POST":
+#         form = UserLoginForm(data=request.POST)
+#         if form.is_valid():
+#             username = request.POST["username"]
+#             password = request.POST["password"]
+#             user = auth.authenticate(request, username=username, password=password)
+
+#             session_key = request.session.session_key
+
+#             if user:
+#                 auth.login(request, user)
+
+#                 if session_key:
+#                     Cart.objects.filter(session_key=session_key).update(user=user)
+#                 # messages.success(request, f'{username}, вы успешно авторизованы!')
+#                 redirect_page = request.POST.get("next", None)
+#                 if redirect_page and redirect_page != reverse("users:logout"):
+#                     return HttpResponseRedirect(request.POST.get("next"))
+
+#             return HttpResponseRedirect(reverse("main:index"))
+#     else:
+#         form = UserLoginForm()
+
+#     context = {"form": form}
+#     return render(request, "users/login.html", context)
+
+
+
+# def registration(request):
+#     if request.method == "POST":
+#         form = UserRegistrationForm(data=request.POST)
+#         if form.is_valid():
+#             form.save()
+
+#             session_key = request.session.session_key
+
+#             user = form.instance
+#             auth.login(request, user)
+
+#             if session_key:
+#                 Cart.objects.filter(session_key=session_key).update(user=user)
+#             # messages.success(request, f'{user.username}, вы успешно зарегистрированы!')
+#             return HttpResponseRedirect(reverse("main:index"))
+#     else:
+#         form = UserRegistrationForm()
+
+#     context = {"form": form}
+#     return render(request, "users/registration.html", context)
