@@ -54,7 +54,6 @@ class Products(models.Model):
     def calc_discount(self):
         if self.discount:
             return round(self.price - self.price * self.discount / 100, 2)
-
         return self.price
     
     def get_absolute_url(self):

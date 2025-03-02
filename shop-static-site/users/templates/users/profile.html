@@ -140,16 +140,16 @@
                                                                         <td><a class="text-white" href="{% url "goods:product" item.product.slug%}">{{item.product.name}}</a></td>
                                                                         <td>{{item.quantity}}</td>
                                                                         <td>{{item.price}}$</td>
-                                                                        <td>{{item.products_price}}</td>
+                                                                        <td>{{item.products_price}}$</td>
                                                                     </tr>
                                                                 {% endfor %}
                                                             </tbody>
                                                         </table>
-                                                        <div class="d-flex justify-content-between">
+                                                        {% comment %} <div class="d-flex justify-content-between">
                                                             <p><strong>Итого:</strong></p>
-                                                            <p><strong>255.00 $</strong></p>
+                                                            <p><strong>{{item.products_price}}</strong></p>
 
-                                                        </div>
+                                                        </div> {% endcomment %}
                                                     </div>
                                                 </div>
                                             </div>
