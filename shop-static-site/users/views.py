@@ -107,7 +107,7 @@ def logout(request):
     return redirect(reverse("main:index"))
 
 # def users_cart(request):
-#     return render(request, "users/user-cart.html") 
+#     return render(request, "users/user-cart.html")
 
 # @login_required
 # def profile(request):
